@@ -6,3 +6,4 @@ Markdown==3.6
 Pygments==2.18.0
 nh3==0.2.18
 Pillow==10.4.0
+psycopg2-binary==2.9.9
