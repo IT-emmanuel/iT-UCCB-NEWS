@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}À propos · IT-UCCB-NEWS{% endblock %}
+{% block content %}
+<div class="prose page-text">
+<h1 class="page">À propos</h1>
+<p>IT-UCCB-NEWS est le site d'actualités et de tutoriels informatiques des étudiants et formateurs de l'Université Catholique du Congo, à Brazzaville. Il couvre les systèmes, les réseaux, la sécurité et le développement.</p>
+<p>Tout le contenu est en libre accès : aucun compte n'est nécessaire pour lire. Le site n'affiche ni publicité ni traqueur.</p>
+<h2 id="contribuer">Comment contribuer</h2>
+<p>Les articles sont écrits par les contributeurs du site : IT-Emmanuel, IT-Life et IT-Ivann. Vous souhaitez proposer un tutoriel ou signaler une erreur ? Contactez l'un d'eux, ou un formateur du département informatique de l'UCCB.</p>
+<p>Chaque article est classé comme <strong>Actualité</strong> ou <strong>Tutoriel</strong>, et placé dans une rubrique : {{ CATEGORIES|join(', ') }}.</p>
+<h2>Suivre le site</h2>
+<p>Ajoutez le <a href="{{ url_for('feed') }}">flux RSS</a> à votre lecteur pour recevoir chaque nouvel article.</p>
+</div>
+{% endblock %}

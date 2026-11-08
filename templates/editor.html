@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ mode }} · IT-UCCB-NEWS{% endblock %}
+{% block content %}
+<form class="form" method="post" enctype="multipart/form-data">
+  <h1 class="page">{{ mode }}</h1>
+  <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+  <label>Titre<input name="title" maxlength="200" value="{{ request.form.get('title', a.title or '') }}" required></label>
+  <div class="row">
+    <label>Type
+      <select name="kind" required>{% set ck = request.form.get('kind', a.kind) %}
+        {% for k in KINDS %}<option {{ 'selected' if k == ck }}>{{ k }}</option>{% endfor %}</select></label>
+    <label>Rubrique
+      <select name="category" required>{% set cur = request.form.get('category', a.category) %}
+        {% for c in CATEGORIES %}<option {{ 'selected' if c == cur }}>{{ c }}</option>{% endfor %}</select></label>
+  </div>
+  <label>Résumé (une ou deux phrases)<input name="summary" maxlength="300" value="{{ request.form.get('summary', a.summary or '') }}" required></label>
+  <label>Image de couverture (facultative, JPG ou PNG)<input type="file" name="cover" accept="image/*"></label>
+  {% if a.cover %}<label class="check"><input type="checkbox" name="remove_cover" value="1"> Supprimer l'image actuelle</label>{% endif %}
+  <label>Texte de l'article<textarea name="body" rows="18" required>{{ request.form.get('body', a.body or '') }}</textarea></label>
+  <p class="hint">Format Markdown : <code>## Titre</code>, <code>**gras**</code>, <code>- liste</code>, <code>`code`</code>. Pour un bloc de commandes, entourez-le de trois accents graves (```) avant et après.</p>
+  <button class="btn">Enregistrer</button>
+</form>
+{% endblock %}

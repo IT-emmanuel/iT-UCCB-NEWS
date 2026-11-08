@@ -1,0 +1,8 @@
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Login==0.6.3
+gunicorn==22.0.0
+Markdown==3.6
+Pygments==2.18.0
+nh3==0.2.18
+Pillow==10.4.0

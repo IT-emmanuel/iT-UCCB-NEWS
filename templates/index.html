@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import avatar %}
+{% block content %}
+<section class="hero">
+  <h1>IT-UCCB-<span>NEWS</span></h1>
+  <p>Les actualités et tutoriels informatiques écrits par les étudiants et formateurs de l'UCCB : systèmes, réseaux, sécurité et développement.</p>
+</section>
+
+{% if featured %}
+<section><h2>À la une</h2>{% set a = featured %}{% include "_card.html" %}</section>
+{% endif %}
+
+{% for cat, items in blocks %}
+<section>
+  <h2>{{ cat }}</h2>
+  {% for a in items %}{% include "_card.html" %}{% endfor %}
+  <p><a class="more" href="{{ url_for('articles', categorie=cat) }}">Tous les articles : {{ cat }}</a></p>
+</section>
+{% else %}<p class="empty">Aucun article publié pour le moment.</p>{% endfor %}
+
+<section id="equipe">
+  <h2>L'équipe</h2>
+  <div class="team">
+    {% for m in TEAM %}
+    <div class="member a-{{ m.slug }}">
+      {{ avatar(m) }}
+      <h3>{{ m.name }}</h3>
+      <p class="role">{{ m.role }}</p>
+      <p>{{ m.bio }}</p>
+      <a class="more" href="{{ url_for('articles', auteur=m.name) }}">Ses articles</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

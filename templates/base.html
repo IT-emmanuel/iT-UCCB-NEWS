@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}IT-UCCB-NEWS{% endblock %}</title>
+<meta name="description" content="Actualités et tutoriels informatiques écrits par les étudiants et formateurs de l'UCCB.">
+<link rel="alternate" type="application/rss+xml" title="IT-UCCB-NEWS" href="{{ url_for('feed') }}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;800&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<link rel="stylesheet" href="{{ url_for('static', filename='code.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top"><div class="wrap bar">
+  <a class="logo" href="{{ url_for('index') }}">IT-UCCB-<span>NEWS</span></a>
+  <nav aria-label="Navigation principale">
+    <a href="{{ url_for('articles', type='Actualité') }}">Actualités</a>
+    <a href="{{ url_for('articles', type='Tutoriel') }}">Tutoriels</a>
+    <details class="menu"><summary>Rubriques</summary>
+      <div>{% for c in CATEGORIES %}<a href="{{ url_for('articles', categorie=c) }}">{{ c }}</a>{% endfor %}</div></details>
+    <a href="{{ url_for('index') }}#equipe">Équipe</a>
+    <a href="{{ url_for('about') }}">À propos</a>
+  </nav>
+  <form class="search" action="{{ url_for('articles') }}" role="search">
+    <input type="search" name="q" placeholder="Rechercher" aria-label="Rechercher un article"></form>
+  <div class="acct">
+  {% if current_user.is_authenticated %}
+    <a class="btn small" href="{{ url_for('new') }}">Écrire</a>
+    <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="link">Déconnexion</button></form>
+  {% else %}<a class="link" href="{{ url_for('login') }}">Espace auteurs</a>{% endif %}
+  </div>
+</div></header>
+<div class="wrap">
+  {% for cat, msg in get_flashed_messages(with_categories=true) %}<p class="flash {{ cat }}" role="status">{{ msg }}</p>{% endfor %}
+</div>
+<main class="wrap">{% block content %}{% endblock %}</main>
+<footer><div class="wrap">
+  <p>IT-UCCB-NEWS · Université Catholique du Congo, Brazzaville · <a href="{{ url_for('feed') }}">Flux RSS</a> · <a href="{{ url_for('about') }}#contribuer">Contribuer</a></p>
+  <p>Sans publicité ni traqueur.</p>
+</div></footer>
+<script>
+document.querySelectorAll('.codehilite').forEach(function(box){
+  var b=document.createElement('button'); b.type='button'; b.className='copy'; b.textContent='Copier';
+  b.onclick=function(){navigator.clipboard.writeText(box.querySelector('pre').innerText).then(function(){b.textContent='Copié';setTimeout(function(){b.textContent='Copier'},1500)})};
+  box.appendChild(b);
+});
+</script>
+</body>
+</html>

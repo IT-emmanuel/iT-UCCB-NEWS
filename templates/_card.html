@@ -1,0 +1,9 @@
+{% set m = MEMBERS[a.author.username] %}
+<article class="card a-{{ m.slug }}{{ ' has-cover' if a.cover }}">
+  {% if a.cover %}<a class="thumb" href="{{ url_for('article', id=a.id) }}" tabindex="-1" aria-hidden="true"><img src="{{ cover_url(a) }}" alt="" loading="lazy"></a>{% endif %}
+  <div>
+    <p class="meta"><span class="tag first">{{ a.kind }}</span><span class="tag">{{ a.category }}</span> <b>{{ a.author.username }}</b> · {{ a.created_at|fr_date }}</p>
+    <h3><a href="{{ url_for('article', id=a.id) }}">{{ a.title }}</a></h3>
+    <p>{{ a.summary }}</p>
+  </div>
+</article>

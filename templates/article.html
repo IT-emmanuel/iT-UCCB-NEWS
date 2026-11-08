@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "_macros.html" import avatar %}
+{% block title %}{{ a.title }} · IT-UCCB-NEWS{% endblock %}
+{% block content %}
+{% set m = MEMBERS[a.author.username] %}
+<article class="post a-{{ m.slug }}">
+  <p class="meta"><span class="tag first">{{ a.kind }}</span><span class="tag">{{ a.category }}</span> {{ a.created_at|fr_date }} · {{ a.reading_time }} min de lecture</p>
+  <h1 class="page">{{ a.title }}</h1>
+  <p class="lead">{{ a.summary }}</p>
+  {% if a.cover %}<img class="cover" src="{{ cover_url(a) }}" alt="">{% endif %}
+  <div class="prose">{{ a.body|md }}</div>
+  <div class="byline">
+    {{ avatar(m, "small") }}
+    <div><strong>{{ m.name }}</strong><br><span class="role">{{ m.role }}</span></div>
+  </div>
+  {% if current_user.is_authenticated and current_user.id == a.author_id %}
+  <div class="actions">
+    <a class="btn small" href="{{ url_for('edit', id=a.id) }}">Modifier</a>
+    <form method="post" action="{{ url_for('delete', id=a.id) }}" onsubmit="return confirm('Supprimer cet article ?')">
+      <input type="hidden" name="_csrf" value="{{ csrf_token() }}"><button class="btn small danger">Supprimer</button></form>
+  </div>{% endif %}
+</article>
+{% if more %}
+<section class="wrap-more"><h2>Du même auteur</h2>
+  {% for a in more %}{% include "_card.html" %}{% endfor %}</section>
+{% endif %}
+{% endblock %}

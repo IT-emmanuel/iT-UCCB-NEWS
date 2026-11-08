@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% from "_macros.html" import pager %}
+{% block title %}{{ kind or cat or 'Articles' }} · IT-UCCB-NEWS{% endblock %}
+{% block content %}
+<h1 class="page">{{ (kind ~ 's') if kind else (cat or 'Articles') }}</h1>
+<form class="filters" method="get" action="{{ url_for('articles') }}">
+  <label>Type
+    <select name="type"><option value="">Tous</option>
+    {% for k in KINDS %}<option {{ 'selected' if k == kind }}>{{ k }}</option>{% endfor %}</select></label>
+  <label>Rubrique
+    <select name="categorie"><option value="">Toutes</option>
+    {% for c in CATEGORIES %}<option {{ 'selected' if c == cat }}>{{ c }}</option>{% endfor %}</select></label>
+  <label>Auteur
+    <select name="auteur"><option value="">Tous</option>
+    {% for m in TEAM %}<option {{ 'selected' if m.name == author }}>{{ m.name }}</option>{% endfor %}</select></label>
+  <label class="grow">Recherche<input type="search" name="q" value="{{ q }}" placeholder="Mot-clé"></label>
+  <button class="btn small">Filtrer</button>
+</form>
+<p class="count">{{ pg.total }} article{{ 's' if pg.total > 1 }}</p>
+{% for a in pg.items %}{% include "_card.html" %}
+{% else %}<p class="empty">Aucun article ne correspond. Changez de filtre ou de mot-clé.</p>{% endfor %}
+{{ pager(pg, args) }}
+{% endblock %}

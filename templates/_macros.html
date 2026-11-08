@@ -1,0 +1,10 @@
+{% macro avatar(m, cls="") %}{% set u = photo(m) %}
+{% if u %}<img class="ph {{ cls }}" src="{{ u }}" alt="Photo de {{ m.name }}" loading="lazy">
+{% else %}<div class="ph ph-empty {{ cls }}" role="img" aria-label="Photo de {{ m.name }} à venir">{{ m.slug[0]|upper }}</div>{% endif %}{% endmacro %}
+
+{% macro pager(pg, args) %}{% if pg.pages > 1 %}
+<nav class="pager" aria-label="Pagination">
+  {% if pg.has_prev %}<a href="{{ url_for('articles', page=pg.prev_num, **args) }}">Précédent</a>{% endif %}
+  <span>Page {{ pg.page }} sur {{ pg.pages }}</span>
+  {% if pg.has_next %}<a href="{{ url_for('articles', page=pg.next_num, **args) }}">Suivant</a>{% endif %}
+</nav>{% endif %}{% endmacro %}
